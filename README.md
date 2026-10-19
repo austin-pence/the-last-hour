@@ -24,4 +24,8 @@ Build with verified public Firebase configuration in `private/firebase-config.js
 
 ## Operational limits
 
+The shared private agenda counts distinct eligible investigators. At the final act, only the configured reporter can submit a private count from zero to ten. The host must confirm that report before a designated writer can submit the ballot: five or more yields two ordered pairs; fewer yields three. The clock continues while confirmation is pending. Team notes are no longer part of the interface.
+
+The host recovery panel requires typing `OVERRIDE`. It can complete a stuck challenge, reopen an act, adjust the clock, or recover the final count. Reopening an act invalidates its and later submissions and final approval; old queued submissions cannot advance the reopened act. An existing sealed ballot requires an explicit clearing choice for any recovery that invalidates it. Recovery never resets player slots automatically.
+
 Internet access is required to join and submit. Reconnects restore committed progress and the synchronized clock. New submissions are rejected while paused or expired; offline local changes are never treated as accepted solutions. The host remains the trusted authority for arrivals, physical play, observed mission statements, and the final spoken reveal. Spoken interviews happen in person and are not recorded. Final ordered pairs are submitted together, once, by the designated writer; no correctness feedback is provided before the host's reveal.
