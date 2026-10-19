@@ -1,0 +1,432 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "hostAccess": {
+      ".read": "auth != null && auth.token.firebase.sign_in_provider === 'google.com' && auth.token.email_verified === true && auth.token.email === root.child('config/hostEmail').val()"
+    },
+    "games": {
+      "$game": {
+        ".read": "auth != null && auth.token.firebase.sign_in_provider === 'google.com' && auth.token.email_verified === true && auth.token.email === root.child('config/hostEmail').val()",
+        ".write": "auth != null && auth.token.firebase.sign_in_provider === 'google.com' && auth.token.email_verified === true && auth.token.email === root.child('config/hostEmail').val()",
+        "owner": {
+          ".validate": "newData.isString()"
+        },
+        "state": {
+          ".read": "auth != null"
+        },
+        "slots": {
+          ".read": "auth != null",
+          "$slot": {
+            "uid": {
+              ".write": "auth != null && auth.token.firebase.sign_in_provider === 'anonymous' && !data.exists() && newData.val() === auth.uid && root.child('games').child($game).child('slots').child($slot).child('name').exists() && root.child('games').child($game).child('state').child('stage').val() === 0 && !(auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid))",
+              ".validate": "newData.isString() && ($slot === 'p0' || newData.parent().parent().child('p0/uid').val() !== newData.val()) && ($slot === 'p1' || newData.parent().parent().child('p1/uid').val() !== newData.val()) && ($slot === 'p2' || newData.parent().parent().child('p2/uid').val() !== newData.val()) && ($slot === 'p3' || newData.parent().parent().child('p3/uid').val() !== newData.val()) && ($slot === 'p4' || newData.parent().parent().child('p4/uid').val() !== newData.val()) && ($slot === 'p5' || newData.parent().parent().child('p5/uid').val() !== newData.val()) && ($slot === 'p6' || newData.parent().parent().child('p6/uid').val() !== newData.val()) && ($slot === 'p7' || newData.parent().parent().child('p7/uid').val() !== newData.val()) && ($slot === 'p8' || newData.parent().parent().child('p8/uid').val() !== newData.val()) && ($slot === 'p9' || newData.parent().parent().child('p9/uid').val() !== newData.val()) && ($slot === 'p10' || newData.parent().parent().child('p10/uid').val() !== newData.val()) && ($slot === 'p11' || newData.parent().parent().child('p11/uid').val() !== newData.val())"
+            }
+          }
+        },
+        "private": {
+          "roles": {
+            "$slot": {
+              ".read": "auth != null && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+            }
+          }
+        },
+        "content": {
+          "1": {
+            "public": {
+              ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 1"
+            },
+            "individual": {
+              "$slot": {
+                ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 1 && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+              }
+            },
+            "letters": {
+              "$slot": {
+                ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 1 && (root.child('games').child($game).child('state').child('letters').val() === true || root.child('games').child($game).child('state').child('stage').val() > 2) && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+              }
+            }
+          },
+          "2": {
+            "public": {
+              ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 2"
+            },
+            "individual": {
+              "$slot": {
+                ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 2 && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+              }
+            },
+            "letters": {
+              "$slot": {
+                ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 2 && (root.child('games').child($game).child('state').child('letters').val() === true || root.child('games').child($game).child('state').child('stage').val() > 2) && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+              }
+            }
+          },
+          "3": {
+            "public": {
+              ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 3"
+            },
+            "individual": {
+              "$slot": {
+                ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 3 && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+              }
+            },
+            "letters": {
+              "$slot": {
+                ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 3 && (root.child('games').child($game).child('state').child('letters').val() === true || root.child('games').child($game).child('state').child('stage').val() > 2) && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+              }
+            }
+          },
+          "4": {
+            "public": {
+              ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 4"
+            },
+            "individual": {
+              "$slot": {
+                ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 4 && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+              }
+            },
+            "letters": {
+              "$slot": {
+                ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 4 && (root.child('games').child($game).child('state').child('letters').val() === true || root.child('games').child($game).child('state').child('stage').val() > 2) && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+              }
+            }
+          },
+          "5": {
+            "public": {
+              ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 5"
+            },
+            "individual": {
+              "$slot": {
+                ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 5 && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+              }
+            },
+            "letters": {
+              "$slot": {
+                ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 5 && (root.child('games').child($game).child('state').child('letters').val() === true || root.child('games').child($game).child('state').child('stage').val() > 2) && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+              }
+            }
+          },
+          "6": {
+            "public": {
+              ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 6"
+            },
+            "individual": {
+              "$slot": {
+                ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 6 && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+              }
+            },
+            "letters": {
+              "$slot": {
+                ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 6 && (root.child('games').child($game).child('state').child('letters').val() === true || root.child('games').child($game).child('state').child('stage').val() > 2) && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+              }
+            }
+          },
+          "7": {
+            "public": {
+              ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 7"
+            },
+            "individual": {
+              "$slot": {
+                ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 7 && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+              }
+            },
+            "letters": {
+              "$slot": {
+                ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 7 && (root.child('games').child($game).child('state').child('letters').val() === true || root.child('games').child($game).child('state').child('stage').val() > 2) && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
+              }
+            }
+          }
+        },
+        "drafts": {
+          "1": {
+            ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 1",
+            ".write": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() === 1 && root.child('games').child($game).child('state').child('phase').val() === 'puzzle' && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val() && newData.exists()",
+            ".validate": "newData.hasChildren(['notes'])",
+            "notes": {
+              ".validate": "newData.isString() && newData.val().length <= 4000"
+            },
+            "fields": {
+              ".validate": true,
+              "$field": {
+                ".validate": "$field.matches(/^(chain[0-9]|chain1[01]|time[0-3]|loc[0-3]|obj[0-3]|cell[0-5])$/) && newData.isString() && newData.val().length <= 100"
+              }
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "2": {
+            ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 2",
+            ".write": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() === 2 && root.child('games').child($game).child('state').child('phase').val() === 'puzzle' && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val() && newData.exists()",
+            ".validate": "newData.hasChildren(['notes'])",
+            "notes": {
+              ".validate": "newData.isString() && newData.val().length <= 4000"
+            },
+            "fields": {
+              ".validate": true,
+              "$field": {
+                ".validate": "$field.matches(/^(chain[0-9]|chain1[01]|time[0-3]|loc[0-3]|obj[0-3]|cell[0-5])$/) && newData.isString() && newData.val().length <= 100"
+              }
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "3": {
+            ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 3",
+            ".write": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() === 3 && root.child('games').child($game).child('state').child('phase').val() === 'puzzle' && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val() && newData.exists()",
+            ".validate": "newData.hasChildren(['notes'])",
+            "notes": {
+              ".validate": "newData.isString() && newData.val().length <= 4000"
+            },
+            "fields": {
+              ".validate": true,
+              "$field": {
+                ".validate": "$field.matches(/^(chain[0-9]|chain1[01]|time[0-3]|loc[0-3]|obj[0-3]|cell[0-5])$/) && newData.isString() && newData.val().length <= 100"
+              }
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "4": {
+            ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 4",
+            ".write": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() === 4 && root.child('games').child($game).child('state').child('phase').val() === 'puzzle' && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val() && newData.exists()",
+            ".validate": "newData.hasChildren(['notes'])",
+            "notes": {
+              ".validate": "newData.isString() && newData.val().length <= 4000"
+            },
+            "fields": {
+              ".validate": true,
+              "$field": {
+                ".validate": "$field.matches(/^(chain[0-9]|chain1[01]|time[0-3]|loc[0-3]|obj[0-3]|cell[0-5])$/) && newData.isString() && newData.val().length <= 100"
+              }
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "5": {
+            ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 5",
+            ".write": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() === 5 && root.child('games').child($game).child('state').child('phase').val() === 'puzzle' && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val() && newData.exists()",
+            ".validate": "newData.hasChildren(['notes'])",
+            "notes": {
+              ".validate": "newData.isString() && newData.val().length <= 4000"
+            },
+            "fields": {
+              ".validate": true,
+              "$field": {
+                ".validate": "$field.matches(/^(chain[0-9]|chain1[01]|time[0-3]|loc[0-3]|obj[0-3]|cell[0-5])$/) && newData.isString() && newData.val().length <= 100"
+              }
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "6": {
+            ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 6",
+            ".write": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() === 6 && root.child('games').child($game).child('state').child('phase').val() === 'puzzle' && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val() && newData.exists()",
+            ".validate": "newData.hasChildren(['notes'])",
+            "notes": {
+              ".validate": "newData.isString() && newData.val().length <= 4000"
+            },
+            "fields": {
+              ".validate": true,
+              "$field": {
+                ".validate": "$field.matches(/^(chain[0-9]|chain1[01]|time[0-3]|loc[0-3]|obj[0-3]|cell[0-5])$/) && newData.isString() && newData.val().length <= 100"
+              }
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "7": {
+            ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 7",
+            ".write": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() === 7 && root.child('games').child($game).child('state').child('phase').val() === 'puzzle' && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val() && newData.exists()",
+            ".validate": "newData.hasChildren(['notes'])",
+            "notes": {
+              ".validate": "newData.isString() && newData.val().length <= 4000"
+            },
+            "fields": {
+              ".validate": true,
+              "$field": {
+                ".validate": "$field.matches(/^(chain[0-9]|chain1[01]|time[0-3]|loc[0-3]|obj[0-3]|cell[0-5])$/) && newData.isString() && newData.val().length <= 100"
+              }
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "solutions": {
+          "1": {
+            ".write": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && !data.exists() && newData.exists() && root.child('games').child($game).child('state').child('stage').val() === 1 && root.child('games').child($game).child('state').child('phase').val() === 'puzzle' && root.child('games').child($game).child('state').child('arrived').val() === true && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val() && root.child('games').child($game).child('private/answers/1').child(newData.child('answer').val()).val() === true",
+            ".validate": "newData.hasChildren(['uid','answer','at','accepted'])",
+            "uid": {
+              ".validate": "newData.val() === auth.uid"
+            },
+            "answer": {
+              ".validate": "newData.isString() && newData.val().length <= 250 && newData.val().matches(/^[A-Z0-9]+$/)"
+            },
+            "at": {
+              ".validate": "newData.val() === now"
+            },
+            "accepted": {
+              ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 1",
+              ".validate": "newData.val() === true"
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "2": {
+            ".write": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && !data.exists() && newData.exists() && root.child('games').child($game).child('state').child('stage').val() === 2 && root.child('games').child($game).child('state').child('phase').val() === 'puzzle' && root.child('games').child($game).child('state').child('arrived').val() === true && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val() && root.child('games').child($game).child('private/answers/2').child(newData.child('answer').val()).val() === true",
+            ".validate": "newData.hasChildren(['uid','answer','at','accepted'])",
+            "uid": {
+              ".validate": "newData.val() === auth.uid"
+            },
+            "answer": {
+              ".validate": "newData.isString() && newData.val().length <= 250 && newData.val().matches(/^[A-Z0-9]+$/)"
+            },
+            "at": {
+              ".validate": "newData.val() === now"
+            },
+            "accepted": {
+              ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 2",
+              ".validate": "newData.val() === true"
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "3": {
+            ".write": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && !data.exists() && newData.exists() && root.child('games').child($game).child('state').child('stage').val() === 3 && root.child('games').child($game).child('state').child('phase').val() === 'puzzle' && root.child('games').child($game).child('state').child('arrived').val() === true && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val() && root.child('games').child($game).child('state').child('rally').val() === true && root.child('games').child($game).child('private/answers/3').child(newData.child('answer').val()).val() === true",
+            ".validate": "newData.hasChildren(['uid','answer','at','accepted'])",
+            "uid": {
+              ".validate": "newData.val() === auth.uid"
+            },
+            "answer": {
+              ".validate": "newData.isString() && newData.val().length <= 250 && newData.val().matches(/^[A-Z0-9]+$/)"
+            },
+            "at": {
+              ".validate": "newData.val() === now"
+            },
+            "accepted": {
+              ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 3",
+              ".validate": "newData.val() === true"
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "4": {
+            ".write": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && !data.exists() && newData.exists() && root.child('games').child($game).child('state').child('stage').val() === 4 && root.child('games').child($game).child('state').child('phase').val() === 'puzzle' && root.child('games').child($game).child('state').child('arrived').val() === true && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val() && root.child('games').child($game).child('private/answers/4').child(newData.child('answer').val()).val() === true",
+            ".validate": "newData.hasChildren(['uid','answer','at','accepted'])",
+            "uid": {
+              ".validate": "newData.val() === auth.uid"
+            },
+            "answer": {
+              ".validate": "newData.isString() && newData.val().length <= 250 && newData.val().matches(/^[A-Z0-9]+$/)"
+            },
+            "at": {
+              ".validate": "newData.val() === now"
+            },
+            "accepted": {
+              ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 4",
+              ".validate": "newData.val() === true"
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "5": {
+            ".write": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && !data.exists() && newData.exists() && root.child('games').child($game).child('state').child('stage').val() === 5 && root.child('games').child($game).child('state').child('phase').val() === 'puzzle' && root.child('games').child($game).child('state').child('arrived').val() === true && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val() && root.child('games').child($game).child('private/answers/5').child(newData.child('answer').val()).val() === true",
+            ".validate": "newData.hasChildren(['uid','answer','at','accepted'])",
+            "uid": {
+              ".validate": "newData.val() === auth.uid"
+            },
+            "answer": {
+              ".validate": "newData.isString() && newData.val().length <= 250 && newData.val().matches(/^[A-Z0-9]+$/)"
+            },
+            "at": {
+              ".validate": "newData.val() === now"
+            },
+            "accepted": {
+              ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 5",
+              ".validate": "newData.val() === true"
+            },
+            "$other": {
+              ".validate": false
+            }
+          },
+          "6": {
+            ".write": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && !data.exists() && newData.exists() && root.child('games').child($game).child('state').child('stage').val() === 6 && root.child('games').child($game).child('state').child('phase').val() === 'puzzle' && root.child('games').child($game).child('state').child('arrived').val() === true && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val() && root.child('games').child($game).child('private/answers/6').child(newData.child('answer').val()).val() === true",
+            ".validate": "newData.hasChildren(['uid','answer','at','accepted'])",
+            "uid": {
+              ".validate": "newData.val() === auth.uid"
+            },
+            "answer": {
+              ".validate": "newData.isString() && newData.val().length <= 250 && newData.val().matches(/^[A-Z0-9]+$/)"
+            },
+            "at": {
+              ".validate": "newData.val() === now"
+            },
+            "accepted": {
+              ".read": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('state').child('stage').val() >= 6",
+              ".validate": "newData.val() === true"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "claims": {
+          "$slot": {
+            ".write": "auth != null && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid && root.child('games').child($game).child('private/roles').child($slot).child('mission').exists() && root.child('games').child($game).child('state').child('stage').val() < 6 && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val() && newData.exists()",
+            ".validate": "newData.hasChildren(['claimed','at'])",
+            "claimed": {
+              ".validate": "newData.val() === true"
+            },
+            "at": {
+              ".validate": "newData.val() === now"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "ballot": {
+          ".write": "auth != null && (root.child('games').child($game).child('slots/p0/uid').val() === auth.uid || root.child('games').child($game).child('slots/p1/uid').val() === auth.uid || root.child('games').child($game).child('slots/p2/uid').val() === auth.uid || root.child('games').child($game).child('slots/p3/uid').val() === auth.uid || root.child('games').child($game).child('slots/p4/uid').val() === auth.uid || root.child('games').child($game).child('slots/p5/uid').val() === auth.uid || root.child('games').child($game).child('slots/p6/uid').val() === auth.uid || root.child('games').child($game).child('slots/p7/uid').val() === auth.uid || root.child('games').child($game).child('slots/p8/uid').val() === auth.uid || root.child('games').child($game).child('slots/p9/uid').val() === auth.uid || root.child('games').child($game).child('slots/p10/uid').val() === auth.uid || root.child('games').child($game).child('slots/p11/uid').val() === auth.uid) && root.child('games').child($game).child('slots').child(root.child('games').child($game).child('state').child('writer').val()).child('uid').val() === auth.uid && !data.exists() && newData.exists() && root.child('games').child($game).child('state').child('stage').val() === 7 && root.child('games').child($game).child('state').child('phase').val() === 'puzzle' && root.child('games').child($game).child('state').child('running').val() === true && root.child('games').child($game).child('state').child('remainingMs').val() > now - root.child('games').child($game).child('state').child('anchor').val()",
+          ".validate": "newData.hasChildren(['pairs','uid','at']) && ((root.child('games').child($game).child('state').child('allowance').val() === 1 && newData.child('pairs').hasChildren(['0']) && !newData.child('pairs').child('1').exists() && !newData.child('pairs').child('2').exists()) || (root.child('games').child($game).child('state').child('allowance').val() === 2 && newData.child('pairs').hasChildren(['0','1']) && !newData.child('pairs').child('2').exists() && (newData.child('pairs').child('0').child('murderer').val() !== newData.child('pairs').child('1').child('murderer').val() || newData.child('pairs').child('0').child('accomplice').val() !== newData.child('pairs').child('1').child('accomplice').val())) || (root.child('games').child($game).child('state').child('allowance').val() === 3 && newData.child('pairs').hasChildren(['0','1','2']) && (newData.child('pairs').child('0').child('murderer').val() !== newData.child('pairs').child('1').child('murderer').val() || newData.child('pairs').child('0').child('accomplice').val() !== newData.child('pairs').child('1').child('accomplice').val()) && (newData.child('pairs').child('0').child('murderer').val() !== newData.child('pairs').child('2').child('murderer').val() || newData.child('pairs').child('0').child('accomplice').val() !== newData.child('pairs').child('2').child('accomplice').val()) && (newData.child('pairs').child('1').child('murderer').val() !== newData.child('pairs').child('2').child('murderer').val() || newData.child('pairs').child('1').child('accomplice').val() !== newData.child('pairs').child('2').child('accomplice').val())))",
+          "pairs": {
+            "$i": {
+              ".validate": "($i === '0' || $i === '1' || $i === '2') && newData.hasChildren(['murderer','accomplice','reason']) && newData.child('murderer').val() !== newData.child('accomplice').val()",
+              "murderer": {
+                ".validate": "root.child('games').child($game).child('slots').child(newData.val()).child('name').exists()"
+              },
+              "accomplice": {
+                ".validate": "root.child('games').child($game).child('slots').child(newData.val()).child('name').exists()"
+              },
+              "reason": {
+                ".validate": "newData.isString() && newData.val().length <= 300"
+              },
+              "$other": {
+                ".validate": false
+              }
+            }
+          },
+          "uid": {
+            ".validate": "newData.val() === auth.uid"
+          },
+          "at": {
+            ".validate": "newData.val() === now"
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      }
+    }
+  }
+}

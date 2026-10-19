@@ -1,0 +1,6 @@
+node_modules/
+dist/
+private/
+*-debug.log
+.firebase/
+.env*
