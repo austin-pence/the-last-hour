@@ -4,6 +4,8 @@ A paperless, mobile-first twelve-player mystery. Firebase Hosting serves the sta
 
 Players join using an invitation code and atomically claim one named slot. The browser retains the anonymous identity. A slot cannot be transferred by players. The host starts the shared 60-minute clock, confirms travel arrivals, approves the physical rally, releases hints, verifies secret-mission statements, conducts spoken interviews without a per-speaker limit, designates the final writer, and announces the verdict. Keep the host control screen connected for automatic puzzle-to-travel releases; reopening reconciles an already accepted solution.
 
+The authorized host can rehearse and then select **Reset game**. After typing `RESET`, this atomically restores the same invitation to an unstarted 60-minute lobby: all slots reopen and submissions, notes, ballot, evidence, mission observations, and timing progress are cleared. Canonical content and fixed private roles remain intact. Connected browsers return to name selection. Canceling the confirmation changes nothing. Only the host can perform a reset; deployment never resets a live game automatically.
+
 ## Privacy model
 
 The repository and static build contain no canonical role mapping, route, private witness cards, correct puzzle answers, or game invitation codes. A private game pack is loaded into the database by the authorized host or deployment administrator. Do not commit `private/` or export the production database into the public repository.

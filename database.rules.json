@@ -29,6 +29,14 @@
             "$slot": {
               ".read": "auth != null && root.child('games').child($game).child('slots').child($slot).child('uid').val() === auth.uid"
             }
+          },
+          "missions": {
+            "$mission": {
+              ".validate": "(!newData.child('speakers').exists() && !newData.child('target').exists() && !newData.child('roundId').exists() && !newData.child('savedAt').exists() && newData.parent().parent().parent().child('state').child('stage').val() === 0) || (((newData.parent().parent().parent().child('state').child('roundId').exists() && newData.child('roundId').val() === newData.parent().parent().parent().child('state').child('roundId').val()) || (!newData.parent().parent().parent().child('state').child('roundId').exists() && newData.child('roundId').val() === 'initial')) && newData.child('savedAt').val() === now && newData.parent().parent().parent().child('state').child('stage').val() < 6)"
+            }
+          },
+          "allowance": {
+            ".validate": "newData.hasChildren(['count','roundId','savedAt']) && newData.child('count').isNumber() && newData.child('count').val() >= 1 && newData.child('count').val() <= 3 && ((newData.parent().parent().child('state').child('roundId').exists() && newData.child('roundId').val() === newData.parent().parent().child('state').child('roundId').val()) || (!newData.parent().parent().child('state').child('roundId').exists() && newData.child('roundId').val() === 'initial')) && newData.child('savedAt').val() === now"
           }
         },
         "content": {
