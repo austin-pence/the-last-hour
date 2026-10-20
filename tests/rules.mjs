@@ -1,7 +1,7 @@
 import test,{before,after,beforeEach} from 'node:test';import {readFile} from 'node:fs/promises';
 import {initializeTestEnvironment,assertFails,assertSucceeds} from '@firebase/rules-unit-testing';
 import {ref,set,get,update,serverTimestamp,runTransaction} from 'firebase/database';
-import {resetGame,recoveryPatch} from '../public/core.js';
+import {resetGame,recoveryPatch,attendancePatch} from '../public/core.js';
 let env;
 const email='host@example.invalid',provider={firebase:{sign_in_provider:'anonymous'}};
 const player=id=>env.authenticatedContext(id,provider).database();
@@ -33,3 +33,33 @@ test('confirmed count below five permits three pairs; expiry prevents private re
 function wireRecovery(patch){patch['private/lastRecovery'].at=serverTimestamp();if(patch['state/anchor']!==undefined)patch['state/anchor']=serverTimestamp();if(patch['private/agendaDecision']){patch['private/agendaDecision'].savedAt=serverTimestamp();patch['private/allowance'].savedAt=serverTimestamp();}return patch;}
 test('recovery rejects players, stale round/version, and old queued solutions',async()=>{const db=host(),before=(await get(ref(db,'games/TESTCODE'))).val(),fresh=wireRecovery(recoveryPatch(before,{action:'act',target:1},Date.now(),'recovery-new'));await assertFails(update(ref(player('u0'),'games/TESTCODE'),fresh));await assertSucceeds(update(ref(db,'games/TESTCODE'),fresh));await assertFails(update(ref(db,'games/TESTCODE'),wireRecovery(recoveryPatch(before,{action:'act',target:2},Date.now(),'stale'))));await assertFails(set(ref(player('u0'),'games/TESTCODE/solutions/1'),{answer:'TESTANSWER',uid:'u0',at:serverTimestamp(),accepted:true,progressVersion:'initial'}));await assertSucceeds(set(ref(player('u0'),'games/TESTCODE/solutions/1'),{answer:'TESTANSWER',uid:'u0',at:serverTimestamp(),accepted:true,progressVersion:'recovery-new'}));const now=(await get(ref(db,'games/TESTCODE'))).val(),stale=wireRecovery(recoveryPatch(now,{action:'act',target:1},Date.now(),'would-reopen'));await assertSucceeds(set(ref(db,'games/TESTCODE'),resetGame(now,'next-round')));await assertFails(update(ref(db,'games/TESTCODE'),stale));});
 test('explicit live Act7 host count recovery opens correct ballot without a report',async()=>{await env.withSecurityRulesDisabled(c=>update(ref(c.database(),'games/TESTCODE/state'),{stage:7,phase:'agenda',writer:'p1'}));const db=host(),game=(await get(ref(db,'games/TESTCODE'))).val(),patch=wireRecovery(recoveryPatch(game,{action:'count',count:5},Date.now(),'count-recovery'));await assertFails(update(ref(player('u0'),'games/TESTCODE'),patch));await assertSucceeds(update(ref(db,'games/TESTCODE'),patch));const current=(await get(ref(db,'games/TESTCODE'))).val();if(current.state.allowance!==2||!current.state.agendaConfirmed||current.private.agendaDecision.source!=='host-recovery')throw Error('Invalid recovery gate');});
+
+test('only host changes attendance; active group receives missing clues but never hidden roles',async()=>{
+ const h=host(),db=player('u0'),other=player('u1'),base='games/TESTCODE';
+ await assertFails(set(ref(db,base+'/slots/p1/absent'),true));await assertFails(get(ref(db,base+'/content/1/individual/p1')));
+ await env.withSecurityRulesDisabled(c=>update(ref(c.database(),base),{'slots/p1/absent':true}));await assertSucceeds(get(ref(db,base+'/content/1/individual/p1')));
+ await assertFails(get(ref(db,base+'/private/roles/p1')));await assertFails(get(ref(player('outsider'),base+'/content/1/individual/p1')));
+ await assertFails(set(ref(other,base+'/solutions/1'),{answer:'TESTANSWER',uid:'u1',at:serverTimestamp(),accepted:true,progressVersion:'initial'}));
+ await assertFails(update(ref(other,base+'/drafts/1'),{fields:{chain0:'KEY'},progressVersion:'initial'}));
+ await env.withSecurityRulesDisabled(c=>update(ref(c.database(),base),{'slots/p1/absent':false}));await assertFails(get(ref(db,base+'/content/1/individual/p1')));
+ await assertSucceeds(set(ref(other,base+'/solutions/1'),{answer:'TESTANSWER',uid:'u1',at:serverTimestamp(),accepted:true,progressVersion:'initial'}));
+});
+test('away clue letters retain release gate and absent unclaimed slots cannot be claimed',async()=>{
+ const h=host(),db=player('u1'),base='games/TESTCODE';await env.withSecurityRulesDisabled(c=>update(ref(c.database(),base),{'slots/p0/absent':true,'state/stage':2,'state/letters':false}));
+ await assertSucceeds(get(ref(db,base+'/content/2/individual/p0')));await assertFails(get(ref(db,base+'/content/2/letters/p0')));await assertSucceeds(set(ref(h,base+'/state/letters'),true));await assertSucceeds(get(ref(db,base+'/content/2/letters/p0')));
+ await env.withSecurityRulesDisabled(c=>update(ref(c.database(),base),{'state/stage':0,'slots/p2/absent':true}));await assertFails(set(ref(player('new'),base+'/slots/p2/uid'),'new'));
+});
+test('away reporter and writer cannot submit; sealed ballot and fixed roles survive attendance change',async()=>{
+ const h=host(),base='games/TESTCODE';await env.withSecurityRulesDisabled(c=>update(ref(c.database(),base),{'slots/p0/absent':true,'state/stage':7,'state/phase':'agenda'}));
+ await assertFails(set(ref(player('u0'),base+'/reports/agenda'),{count:5,uid:'u0',roundId:'round-a',agendaSchema:'shared-agenda-v1',progressVersion:'initial',at:serverTimestamp()}));
+ await assertSucceeds(update(ref(h,base),{'state/phase':'puzzle','state/writer':'p0','state/agendaConfirmed':true,'state/allowance':2}));await env.withSecurityRulesDisabled(c=>set(ref(c.database(),base+'/private/agendaDecision'),{count:5,roundId:'round-a'}));
+ await assertFails(set(ref(player('u0'),base+'/ballot'),{pairs:[{murderer:'p0',accomplice:'p1',reason:''},{murderer:'p1',accomplice:'p0',reason:''}],uid:'u0',at:serverTimestamp()}));
+});
+
+test('attendance changes require fresh server audit and cannot replay across reset, recovery or another departure',async()=>{
+ const db=host(),base='games/TESTCODE',read=async()=>(await get(ref(db,base))).val();const wire=(g,id,absent)=>{const p=attendancePatch(g,id,absent);p['private/lastAttendance'].at=serverTimestamp();return p;};
+ const before=await read(),stale=wire(before,'p1',true);await assertFails(set(ref(db,base+'/slots/p1/absent'),true));await assertSucceeds(update(ref(db,base),wire(before,'p0',true)));await assertFails(update(ref(db,base),stale));
+ const current=await read(),old=wire(current,'p1',true);await assertSucceeds(update(ref(db,base),wireRecovery(recoveryPatch(current,{action:'act',target:2},Date.now(),'act-change'))));await assertFails(update(ref(db,base),old));
+ const oldRound=wire(await read(),'p1',true);await assertSucceeds(set(ref(db,base),resetGame(await read(),'new-round')));await assertFails(update(ref(db,base),oldRound));
+ const fresh=await read();await assertSucceeds(update(ref(db,base),wire(fresh,'p1',true)));const reset=resetGame(await read(),'fresh-again');if(reset.private.lastAttendance||reset.slots.p1.absent)throw Error('Attendance survived reset');
+});

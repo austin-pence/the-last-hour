@@ -1,0 +1,1 @@
+import {spawnSync} from 'node:child_process';for(const args of [['--test','tests/rules.mjs'],['tests/browser.mjs'],['tests/departures-browser.mjs']]){const p=spawnSync(process.execPath,args,{stdio:'inherit'});if(p.status)process.exit(p.status);} 

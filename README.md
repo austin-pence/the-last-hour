@@ -24,6 +24,12 @@ Build with verified public Firebase configuration in `private/firebase-config.js
 
 ## Operational limits
 
+The host attendance panel explicitly marks a player away or returned. A network disconnect alone never changes attendance. The game can start when every active witness has joined. Away players cannot submit answers, shared fields, private reports, or ballots. Active players receive the away characters' current factual clues; future acts and unreleased letters remain gated, and secret roles remain private. The host coverage panel also collects those clues with separate confidential character instructions.
+
+The complete twelve-character chain, ticket scraps, forensic facts, suspect roster, and fixed role assignments remain intact when two or three people leave. Split the remaining players across the three ticket teams. Interviews skip away characters and advance if the current speaker leaves; a departed writer is cleared for host reassignment. Sealed ballots and the running clock are preserved. The rally keeps twelve hits and requires the smaller of six or the active count of different players; with one player, the host supplies alternating taps. The five-person agenda target remains fixed, including qualifying statements heard before departure. If the private reporter is away, the host can use the audited final-count recovery control after checking observations. Reset restores all attendance to active.
+
+Attendance changes carry server-validated round, progress, roster, phase, speaker, writer, and time stamps so an old queued host action cannot alter a reset or recovered game.
+
 The shared private agenda counts distinct eligible investigators. At the final act, only the configured reporter can submit a private count from zero to ten. The host must confirm that report before a designated writer can submit the ballot: five or more yields two ordered pairs; fewer yields three. The clock continues while confirmation is pending. Team notes are no longer part of the interface.
 
 The host recovery panel requires typing `OVERRIDE`. It can complete a stuck challenge, reopen an act, adjust the clock, or recover the final count. Reopening an act invalidates its and later submissions and final approval; old queued submissions cannot advance the reopened act. An existing sealed ballot requires an explicit clearing choice for any recovery that invalidates it. Recovery never resets player slots automatically.

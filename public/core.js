@@ -11,7 +11,7 @@ export function initialState(roundId){return {stage:0,running:false,remainingMs:
 export function resetGame(game,roundId){
   const privateData=structuredClone(game.private);
   delete privateData.allowance;
-  delete privateData.agendaDecision;delete privateData.lastRecovery;
+  delete privateData.agendaDecision;delete privateData.lastRecovery;delete privateData.lastAttendance;
   for(const mission of Object.values(privateData.missions||{})){delete mission.speakers;delete mission.target;delete mission.roundId;delete mission.savedAt;}
   return {owner:game.owner,slots:Object.fromEntries(Object.entries(game.slots).map(([id,slot])=>[id,{name:slot.name}])),content:structuredClone(game.content),private:privateData,state:initialState(roundId)};
 }
@@ -31,7 +31,7 @@ export function recoveryPatch(game,request,now,id){
     const evidence={};for(const [stage,transition]of Object.entries(game.private.transitions||{}))if(Number(stage)<target&&transition.evidence)evidence[stage]=transition.evidence;patch['state/evidence']=Object.keys(evidence).length?evidence:null;
   }else if(action==='advance'){
     if(state.phase==='finished'||state.stage<1||state.stage>6)throw Error('Use Open selected act or Recover final count for this phase.');
-    if(state.phase==='puzzle'&&state.stage===6)setState({phase:'interrogation',speaker:Object.keys(game.slots)[0],interviewed:{}});
+    if(state.phase==='puzzle'&&state.stage===6)setState({phase:'interrogation',speaker:activeIds(game.slots)[0],interviewed:{}});
     else if(state.phase==='puzzle'||state.phase==='interrogation'){const transition=game.private.transitions[state.stage];setState({phase:'travel',destination:transition.destination,...(state.stage===2?{letters:true}:{}),evidence:{...(state.evidence||{}),...(transition.evidence?{[state.stage]:transition.evidence}:{})}});}
     else throw Error('The challenge is already released. Confirm arrival or select an act.');
   }else if(action==='count'){
@@ -40,5 +40,21 @@ export function recoveryPatch(game,request,now,id){
   }else throw Error('Choose a recovery action.');
   if(game.ballot&&action!=='time'){patch.ballot=null;patch['state/ballotLocked']=null;}
   patch['private/lastRecovery']={id,action,roundId:state.roundId||'initial',expectedVersion:state.progressVersion||'initial',expectedStage:state.stage,expectedPhase:state.phase,at:now,clearedBallot:Boolean(game.ballot&&action!=='time'),...(action==='count'?{count:request.count}:{})};
+  return patch;
+}
+
+export const activeIds=slots=>Object.keys(slots).filter(id=>slots[id].absent!==true).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+export function attendancePatch(game,id,absent,at=Date.now(),changeId=crypto.randomUUID()){
+  if(!game.slots[id]||typeof absent!=='boolean')throw Error('Choose a valid witness and attendance status.');
+  const slots=structuredClone(game.slots);slots[id].absent=absent;
+  const active=activeIds(slots);if(!active.length)throw Error('Keep at least one active witness.');
+  const patch={['slots/'+id+'/absent']:absent,'state/attendanceVersion':changeId,'private/lastAttendance':{id:changeId,slot:id,absent,at,roundId:game.state.roundId||'initial',expectedVersion:game.state.progressVersion||'initial',expectedAttendance:game.state.attendanceVersion||'initial',expectedStage:game.state.stage,expectedPhase:game.state.phase,expectedWriter:game.state.writer||'none',expectedSpeaker:game.state.speaker||'none'}};
+  if(absent&&game.state.writer===id)patch['state/writer']=null;
+  if(absent&&game.state.phase==='interrogation'&&game.state.speaker===id){
+    const interviewed={...(game.state.interviewed||{}),[id]:true};
+    const next=active.find(key=>!interviewed[key]);patch['state/interviewed']=interviewed;
+    if(next)patch['state/speaker']=next;
+    else{patch['state/speaker']=null;patch['state/phase']='travel';patch['state/destination']=game.private.transitions[6].destination;}
+  }
   return patch;
 }
