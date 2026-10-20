@@ -16,7 +16,7 @@ export function resetGame(game,roundId){
   return {owner:game.owner,slots:Object.fromEntries(Object.entries(game.slots).map(([id,slot])=>[id,{name:slot.name}])),content:structuredClone(game.content),private:privateData,state:initialState(roundId)};
 }
 export function recoveryPatch(game,request,now,id){
-  const state=game.state,patch={},action=request.action;
+  const state=game.state,patch={},action=request.action;if(state.mode==='random-murderers-v2'&&action==='count')throw Error('Use the final agenda review to open this round’s ballot.');
   if(game.ballot&&action!=='time'&&!request.clearBallot)throw Error('Confirm clearing the sealed ballot before changing this progress.');
   const setState=values=>{for(const [key,value]of Object.entries(values))patch['state/'+key]=value;};
   if(action==='time'){
@@ -27,7 +27,7 @@ export function recoveryPatch(game,request,now,id){
     const target=request.target;if(!Number.isInteger(target)||target<1||target>7)throw Error('Choose an act from 1 to 7.');
     setState({stage:target,phase:target===7?'agenda':'puzzle',arrived:true,progressVersion:id,reveal:false,revealText:null,allowance:null,agendaConfirmed:false,writer:null,ballotLocked:null,hints:null,hintCount:0,letters:false,rally:false,sealedMessage:null,destination:null,interviewed:null,speaker:null,roundEndsAt:null,roundRemainingMs:null,roundLabel:null});
     for(let stage=target;stage<=7;stage++){patch['solutions/'+stage]=null;patch['drafts/'+stage]=null;}
-    patch.reports=null;patch['private/agendaDecision']=null;patch['private/allowance']=null;
+    patch.reports=null;patch['private/randomDecision']=null;patch['private/agendaDecision']=null;patch['private/allowance']=null;
     const evidence={};for(const [stage,transition]of Object.entries(game.private.transitions||{}))if(Number(stage)<target&&transition.evidence)evidence[stage]=transition.evidence;patch['state/evidence']=Object.keys(evidence).length?evidence:null;
   }else if(action==='advance'){
     if(state.phase==='finished'||state.stage<1||state.stage>6)throw Error('Use Open selected act or Recover final count for this phase.');

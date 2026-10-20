@@ -3,3 +3,5 @@
 input[type="checkbox"]{width:20px;min-height:20px;margin-right:10px;vertical-align:middle}button.pending{opacity:.5}
 
 dialog{max-width:520px;width:calc(100% - 32px);max-height:90dvh;overflow:auto;padding:26px;background:#1b211b;color:var(--paper);border:1px solid var(--red)}dialog::backdrop{background:#000b}dialog h2{font:30px Georgia;margin:0 0 18px}
+
+.playing .hero{display:none}.playing main{padding-top:14px}.playing .card{padding:18px;margin:12px 0}.playing .card h2{font-size:25px;margin-bottom:12px}.playing .copy{font:16px/1.55 Arial,sans-serif}.tools summary{font-weight:bold}
